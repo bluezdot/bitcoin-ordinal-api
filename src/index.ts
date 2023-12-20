@@ -1,7 +1,8 @@
 import axios from 'axios';
 import * as fs from 'fs';
 import { HIRO_APIs } from '/Users/truong/alone/bitcoin-ordinal-api/constant';
-const TEST_ADDRESS = 'bc1q8cpn3zl6lz5xrxdqgx7j68ggcpjm7ctzyds82c';
+
+const TEST_ADDRESS = 'bc1p5zy5mrjfz00lr7nvy3vzvusdws85ldxzrqxacgajqwurc70wqsqsdx5ye6';
 
 interface Inscription {
     id: string;
@@ -61,44 +62,38 @@ async function getOrdinalContent(id: string) {
 async function handleOrdinals() {
     try {
         const balances = await getBalances(TEST_ADDRESS);
-        // console.log(balances);
 
         if (balances) {
-            const ordinal_list: Inscription[] = [];
-            for (const ordinal of balances) {
-                const content = await getOrdinalContent(ordinal.id);
-                // console.log(content);
+            const ordinalPromises: Promise<Inscription>[] = balances.map(async (ordinal: { id: string; number: any; address: any; genesis_block_height: string; genesis_block_hash: any; genesis_timestamp: any; genesis_tx_id: any; location: any; output: any; value: string; genesis_fee: string; sat_ordinal: string; sat_rarity: any; content_type: any; content_length: any; }) => {
+              const content = await getOrdinalContent(ordinal.id);
 
-                const parsedOrdinal: Inscription =  {
-                    id: ordinal.id,
-                    number: ordinal.number,
-                    address: ordinal.address,
-                    block: parseInt(ordinal.genesis_block_height),
-                    block_hash: ordinal.genesis_block_hash,
-                    timestamp: ordinal.genesis_timestamp,
-                    tx_id: ordinal.genesis_tx_id,
-                    location: ordinal.location,
-                    output: ordinal.output,
-                    value: parseInt(ordinal.value),
-                    fee: parseInt(ordinal.genesis_fee),
-                    sat_ordinal: parseInt(ordinal.sat_ordinal),
-                    sat_rarity: ordinal.sat_rarity,
-                    content_type: ordinal.content_type,
-                    content_length: ordinal.content_length,
-                    content: content
-                };
-                // Push to params
-                ordinal_list.push(parsedOrdinal);
-            }
+              return {
+                  id: ordinal.id,
+                  number: ordinal.number,
+                  address: ordinal.address,
+                  block: parseInt(ordinal.genesis_block_height),
+                  block_hash: ordinal.genesis_block_hash,
+                  timestamp: ordinal.genesis_timestamp,
+                  tx_id: ordinal.genesis_tx_id,
+                  location: ordinal.location,
+                  output: ordinal.output,
+                  value: parseInt(ordinal.value),
+                  fee: parseInt(ordinal.genesis_fee),
+                  sat_ordinal: parseInt(ordinal.sat_ordinal),
+                  sat_rarity: ordinal.sat_rarity,
+                  content_type: ordinal.content_type,
+                  content_length: ordinal.content_length,
+                  content: content,
+              };
+        });
+            const ordinal_list = await Promise.all(ordinalPromises);
             const filePath = 'output.txt';
             fs.writeFileSync(filePath, JSON.stringify(ordinal_list), 'utf-8');
-        
-            // console.log(ordinal_list);
-            // return ordinal_list;
         }
+        
     } catch (error) {
     console.error(`Failed to fetch ordinals`, error);
 }
 }
 
-console.log(handleOrdinals());
+handleOrdinals();
