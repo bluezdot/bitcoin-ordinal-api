@@ -1,6 +1,15 @@
 {
   "dependencies": {
+    "@okxweb3/coin-bitcoin": "^1.0.3",
     "axios": "^1.6.2",
+    "bip32": "^4.0.0",
+    "bitcoinjs-lib": "^6.1.5",
+    "bitcore-explorers": "^1.0.1",
+    "bitcore-insight": "^1.0.1",
+    "bitcore-lib": "^10.0.21",
+    "ecpair": "^2.1.0",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6",
     "ts-node": "^10.9.2"
   }
 }
