@@ -18,3 +18,12 @@ export const HIRO_APIs = {
     brc20_balances: 'https://api.hiro.so/ordinals/v1/brc-20/balances/:address',
     brc20_activity: 'https://api.hiro.so/ordinals/v1/brc-20/activity'
 }
+
+export const ORD_IO_URL = {
+    url: 'https://www.ord.io/'
+}
+
+export const SUPPORT_SRC_VIEWER = {
+    inscription_info_url: 'https://ordinals.hiro.so/inscription/:id',
+    frame_preview_url: 'https://ordinals.com/preview/:id'
+}

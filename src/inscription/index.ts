@@ -10,7 +10,7 @@ const TEST_ADDRESS = 'bc1p5zy5mrjfz00lr7nvy3vzvusdws85ldxzrqxacgajqwurc70wqsqsdx
 async function getBalances(address: string) {
   const pageSize = 50;
   let offset = 0;
-  const ordinalsFullList: Array<any> = [];
+  const ordinalsFullList: Array<any> = []; // todo: replace type InscriptionResponseItem[]
 
   let configListOrdinals = {
     method: 'get',
@@ -26,7 +26,6 @@ async function getBalances(address: string) {
       const response = await axios.request(configListOrdinals);
       // check if response is a null array
       if (response.data['results'].length !== 0) {
-        const a: Array<any> = [];
         ordinalsFullList.push(...response.data['results']);
         offset += pageSize;
         configListOrdinals['url'] = HIRO_APIs.list_of_incriptions + `?address=${address}&limit=${pageSize}&offset=${offset}`;
@@ -64,9 +63,9 @@ async function getOrdinalContent(id: string) {
 async function handleOrdinals() {
     try {
         const balances = await getBalances(TEST_ADDRESS);
-        if (balances) {
+        if (balances.length > 0) {
             const ordinalPromises: Promise<Inscription | undefined>[] = balances.map(async (ordinal: { id: string; number: any; address: any; genesis_block_height: string; genesis_block_hash: any; genesis_timestamp: any; genesis_tx_id: any; location: any; output: any; value: string; genesis_fee: string; sat_ordinal: string; sat_rarity: any; content_type: any; content_length: any; }) => {
-              if (ordinal.content_type === 'text/plain') {
+              if (ordinal.content_type === 'text/plain') { // todo: this inscription is usually used for the minting, transfering, ... for BRC20. Need recheck.
                 return undefined;
               }
               const content = await getOrdinalContent(ordinal.id);
