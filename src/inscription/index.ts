@@ -1,29 +1,11 @@
 import axios from 'axios';
 import * as fs from 'fs';
-import { HIRO_APIs } from '/Users/truong/alone/bitcoin-ordinal-api/constant';
+import { HIRO_APIs } from '/Users/bluedot/bitcoin-ordinal-api/constant';
+import { Inscription } from '/Users/bluedot/bitcoin-ordinal-api/src/type/interface'
 
 // const TEST_ADDRESS = 'bc1psu0gqjuyzc5dtcrqu6ewkfe9y94cnm3pjn4vhgem9nr0hzl6w3hqj24zq9';
-const TEST_ADDRESS = 'bc1p5zy5mrjfz00lr7nvy3vzvusdws85ldxzrqxacgajqwurc70wqsqsdx5ye6';
 // const TEST_ADDRESS = 'bc1q8cpn3zl6lz5xrxdqgx7j68ggcpjm7ctzyds82c';
-
-interface Inscription {
-    id: string;
-    number: number;
-    address: string;
-    block: number;
-    block_hash: string;
-    timestamp: number;
-    tx_id: string;
-    location: string;
-    output: string;
-    value: number;
-    fee: number;
-    sat_ordinal: number;
-    sat_rarity: string;
-    content_type: string;
-    content_length: number;
-    content: any;
-}
+const TEST_ADDRESS = 'bc1p5zy5mrjfz00lr7nvy3vzvusdws85ldxzrqxacgajqwurc70wqsqsdx5ye6';
 
 async function getBalances(address: string) {
   const pageSize = 50;
@@ -108,12 +90,12 @@ async function handleOrdinals() {
               };
         });
             const ordinal_list = (await Promise.all(ordinalPromises)).filter(Boolean) as Inscription[];
-            const filePath = 'output.txt';
-            fs.writeFileSync(filePath, JSON.stringify(ordinal_list), 'utf-8');
+            const filePath = 'test/output_text/output.json';
+            fs.writeFileSync(filePath, JSON.stringify(ordinal_list, null, 2), 'utf-8');
         }
 
     } catch (error) {
-    console.error(`Failed to fetch ordinals`, error);
+        console.error(`Failed to fetch ordinals`, error);
     }
 }
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as fs from 'fs';
-import { HIRO_APIs } from '/Users/truong/alone/bitcoin-ordinal-api/constant';
+import { HIRO_APIs } from 'constant.ts';
 
 // const TEST_ADDRESS = 'bc1psu0gqjuyzc5dtcrqu6ewkfe9y94cnm3pjn4vhgem9nr0hzl6w3hqj24zq9';
 // const TEST_ADDRESS = 'bc1p5zy5mrjfz00lr7nvy3vzvusdws85ldxzrqxacgajqwurc70wqsqsdx5ye6';
