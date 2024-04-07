@@ -16,7 +16,7 @@ async function getBalances(address: string) {
     method: 'get',
     maxBodyLength: Infinity,
     url: HIRO_APIs.list_of_incriptions + `?address=${address}&limit=${pageSize}&offset=${offset}`,
-    headers: { 
+    headers: {
       'Accept': 'application/json'
     }
   };
@@ -47,7 +47,7 @@ async function getOrdinalContent(id: string) {
         method: 'get',
         maxBodyLength: Infinity,
         url: HIRO_APIs.inscription_content.replace(':id', id),
-        headers: { 
+        headers: {
           'Accept': 'application/json'
         }
       };
